@@ -1,0 +1,36 @@
+- hosts: ubuntu
+  remote_user: azureuser
+  become: yes
+  tasks:
+    - name: echo hello
+      shell:
+        cmd: echo hello
+      register: echo
+    - debug: var=echo.stdout_lines
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      shell:
+        cmd: 'sudo mkdir -p /etc/apt/keyrings  &&  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg'
+
+
+    - name: Add Docker Repository
+      shell:
+        cmd: echo  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    - name: Update apt and install docker-ce
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        update_cache: true

@@ -1,0 +1,31 @@
+- hosts: ubuntu
+  remote_user: azureuser
+  become: yes
+  tasks:
+    - name: Update apt and install python3
+      apt:
+        pkg:
+          - python3
+        update_cache: true
+      register: apt
+    - debug: var=apt.stdout_lines
+    
+    - name: get welcome html 
+      shell:
+        cmd: wget http://welendsre.koreacentral.cloudapp.azure.com/
+      register: wget
+    - debug: var=wget.stdout_lines
+
+    - name: delete html tags & get the html body text
+      shell:
+        cmd: cat index.html | sed -e 's/<[^>]*>//g'   | sed -e '1,11d' > text.txt
+      register: cat
+    - debug: var=cat.stdout_lines
+
+    - name: deal with the body by sed
+      shell:
+        cmd: sed -e 's/!//' text.txt | sed -e 's/,//g' | sed -e 's/\./ /g' | sed -e 's/  / /g' | sed '/^\s*$/d' > nginxbody.txt
+      register: sed
+    - debug: var=sed.stdout_lines
+
+    

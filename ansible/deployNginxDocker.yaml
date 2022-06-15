@@ -1,0 +1,9 @@
+- hosts: ubuntu
+  remote_user: azureuser
+  become: yes
+  tasks:
+    - name: docker run nginx
+      shell:
+        cmd: docker run --name mynginx1 -p 80:80 -d nginx
+      register: docker
+    - debug: var=docker.stdout_lines
