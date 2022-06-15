@@ -1,9 +1,0 @@
-- hosts: ubuntu
-  remote_user: azureuser
-  become: yes
-  tasks:
-    - name: echo hello
-      shell:
-        cmd: echo hello
-      register: echo
-    - debug: var=echo.stdout_lines

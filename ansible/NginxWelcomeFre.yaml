@@ -4,9 +4,9 @@
   tasks:
     - name: Update apt and install python3
       apt:
-        pkg:
-          - python3
-        update_cache: true
+          pkg:
+            - python3
+          update_cache: true
       register: apt
     - debug: var=apt.stdout_lines
     
@@ -28,4 +28,17 @@
       register: sed
     - debug: var=sed.stdout_lines
 
-    
+    - name: copy python script to find out frequency word
+      copy:
+        src: ./frequency.py
+        dest: /home/azureuser
+        owner: azureuser
+        group: azureuser
+        mode: 755
+
+    - name: run the python script to get the result
+      shell:
+        cmd: python3 frequency.py
+      register: python3
+    - debug: var=python3.stdout_lines
+
