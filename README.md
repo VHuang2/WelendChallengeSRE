@@ -32,7 +32,7 @@ ansible/NginxWelcomeFre.yaml
 
 •	Demonstrate how you would log the resource usage of the containers every 10 seconds.
 
-
+#############
 #!/bin/bash
 while true
 do
@@ -40,5 +40,5 @@ do
   docker stats --no-stream >> dockerStats.log
   sleep 10
 done
-
+##############
 
