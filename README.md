@@ -12,6 +12,7 @@ ansible/deployNginxDocker.yaml
 
 •	Demonstrate how you would test the healthiness of the Nginx container.
 wget http://welendsre.koreacentral.cloudapp.azure.com/
+
 docker ps
 
 •	Expose the Nginx container to the public web on port 80.
